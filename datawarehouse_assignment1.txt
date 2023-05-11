@@ -1,0 +1,71 @@
+1. IPL Cricket Tournament:
+
+Fact Table: Matches (match_id (PK), team1_id, team2_id, venue_id, winner_team_id)
+Dimension Tables:
+    Team (team_id (PK), team_name, city)
+    Player (player_id (PK), player_name, team_id (FK), player_role)
+    Venue (venue_id (PK), venue_name, city)
+Query: Get the number of matches won by each team.
+    
+SELECT team_name, COUNT(*) AS wins
+FROM Matches
+JOIN Team ON Matches.winner_team_id = Team.team_id
+GROUP BY winner_team_id;
+
+2. Food delivery app:
+
+Fact Table: Orders (order_id (PK), customer_id, restaurant_id, delivery_id, food_item_id, order_time, delivery_time, amount)
+Dimension Tables:
+    Customer (customer_id (PK), name, address, phone)
+    Restaurant (restaurant_id (PK), name, address)
+    Delivery_Person (delivery_id (PK), name, phone)
+    Food_Item (food_item_id (PK), food_name, category, price)
+Query: Get the total revenue per restaurant.
+
+SELECT Restaurant.name, SUM(Orders.amount) AS revenue
+FROM Orders
+JOIN Restaurant ON Orders.restaurant_id = Restaurant.restaurant_id
+GROUP BY Restaurant.name;
+
+3. Cab ride service:
+
+Fact Table: Rides (ride_id (PK), customer_id, driver_id, pickup_location_id, dropoff_location_id, start_time, end_time, fare)
+Dimension Tables:
+    Customer (customer_id (PK), name, phone)
+    Driver (driver_id (PK), name, phone)
+    Location (location_id (PK), city, state, country)
+Query: Get the total fare earned by each driver.
+
+SELECT Driver.name, SUM(Rides.fare) AS total_earnings
+FROM Rides
+JOIN Driver ON Rides.driver_id = Driver.driver_id
+GROUP BY Driver.name;
+
+4. Restaurant table booking app:
+
+Fact Table: Bookings (booking_id (PK), customer_id, restaurant_id, table_id, booking_time, total_amount)
+Dimension Tables:
+    Customer (customer_id (PK), name, phone)
+    Restaurant (restaurant_id (PK), name, address)
+    Table (table_id (PK), table_number, seating_capacity)
+Query: Get the most booked restaurant.
+    
+SELECT Restaurant.name, COUNT(*) AS number_of_bookings
+FROM Bookings
+JOIN Restaurant ON Bookings.restaurant_id = Restaurant.restaurant_id
+GROUP BY Restaurant.name
+ORDER BY number_of_bookings DESC
+LIMIT 1;
+
+5. Covid Vaccination Application:
+
+Fact Table: Vaccinations (vaccination_id (PK), patient_id, hospital_id, vaccine_id, vaccination_date)
+Dimension Tables:
+    Patient (patient_id (PK), name, age, address)
+    Hospital (hospital_id (PK), name, address)
+    Vaccine (vaccine_id (PK), vaccine_name, manufacturer)
+Query: Get the number of vaccinations per hospital.
+    
+SELECT Hospital.name, COUNT(*) AS number_of_vaccinations
+FROM Vaccinations
+JOIN Hospital ON Vaccinations.h
